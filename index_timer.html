@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background-color: #f0f0f0;
+        }
+        #timer {
+            font-size: 48px;
+            margin-top: 20px;
+            color: #333;
+        }
+        #startButton, #stopButton {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #0084ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #stopButton {
+            background-color: #ff3b30;
+        }
+    </style>
+</head>
+<body>
+    <h1>Telegram Mini App Timer</h1>
+    <div id="timer">00:00:00</div>
+    <button id="startButton">Start Timer</button>
+    <button id="stopButton" disabled>Stop Timer</button>
+
+    <script>
+        let startTime;
+        let timerInterval;
+        const timerElement = document.getElementById('timer');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+            startButton.disabled = true;
+            stopButton.disabled = false;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        }
+
+        function updateTimer() {
+            const currentTime = new Date();
+            const elapsedTime = currentTime - startTime;
+            const hours = Math.floor(elapsedTime / 3600000);
+            const minutes = Math.floor((elapsedTime % 3600000) / 60000);
+            const seconds = Math.floor((elapsedTime % 60000) / 1000);
+            timerElement.textContent = 
+                `${hours.toString().padStart(2, '0')}:
+                 ${minutes.toString().padStart(2, '0')}:
+                 ${seconds.toString().padStart(2, '0')}`;
+        }
+
+        startButton.addEventListener('click', startTimer);
+        stopButton.addEventListener('click', stopTimer);
+    </script>
+</body>
+</html>
